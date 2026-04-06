@@ -5,8 +5,8 @@ import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.ore.OrePrefix;
+import gregtech.api.recipes.ingredients.GTRecipeOreInput;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreIngredient;
 import net.zaltren.firmabridge.FirmaBridge;
 
 /**
@@ -69,7 +69,7 @@ public class RecipeCompatHandler {
             return 0;
         }
         RecipeMaps.MACERATOR_RECIPES.recipeBuilder()
-                .inputs(new OreIngredient(oreDictInput))
+                .inputs(new GTRecipeOreInput(oreDictInput))
                 .outputs(output)
                 .duration(duration)
                 .EUt(eut)

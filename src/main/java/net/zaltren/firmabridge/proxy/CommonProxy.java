@@ -5,6 +5,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.zaltren.firmabridge.FirmaBridge;
 import net.zaltren.firmabridge.compat.MaterialBridgeHandler;
+import net.zaltren.firmabridge.compat.OreQualityHandler;
 import net.zaltren.firmabridge.compat.RecipeCompatHandler;
 import net.zaltren.firmabridge.config.FirmaBridgeConfig;
 import net.zaltren.firmabridge.registry.RockRegistry;
@@ -27,6 +28,7 @@ public class CommonProxy {
             RockRegistry.resolve();
             GTVeinPatcher.apply();
             RecipeCompatHandler.register();
+            OreQualityHandler.register();
         }
     }
 
