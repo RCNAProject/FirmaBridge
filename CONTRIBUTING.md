@@ -34,10 +34,13 @@ gradlew build
 
 ## Build Requirements
 
+FirmaBridge is built on the [CleanroomMC 1.12.2 development template](https://github.com/RCNAProject/RCNA-1.12.2-template), which uses RetroFuturaGradle to provide a modern build environment for legacy Minecraft versions. If you are unfamiliar with this setup, it is recommended to review the CleanroomMC documentation before contributing.
+
 | Component         | Version      |
 | ----------------- | ------------ |
 | Java              | 25           |
 | Gradle            | 9.2.1        |
+| RetroFuturaGradle | 2.0.2        |
 | Minecraft         | 1.12.2       |
 | Forge             | 14.23.5.2847 |
 
