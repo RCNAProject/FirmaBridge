@@ -1,6 +1,10 @@
 # Contributing to FirmaBridge
 
-Thank you for your interest in contributing to FirmaBridge. This document outlines the guidelines for contributing to the project.
+FirmaBridge is a community-driven project and contributions are genuinely welcomed. Whether you are fixing a bug, improving compatibility, or helping document the mod, your help makes FirmaBridge better for everyone who uses it.
+
+That said, this project has a clear purpose and a standard for how contributions are made. The guidelines in this document are not here to make contributing difficult — they exist to keep the codebase clean, organized, and maintainable as the mod grows. A well-organized project is easier to debug, easier to build on, and easier for new contributors to understand.
+
+Please take the time to read through this document before contributing. Following these guidelines from the start makes the review process smoother for everyone and gives your PR the best chance of being accepted.
 
 ---
 
