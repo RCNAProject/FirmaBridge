@@ -63,7 +63,7 @@ change: rebalance ore quality dust yields
 docs: update compatibility table in README
 ```
 
-Commits that do not follow this convention will be asked to be amended before merging.
+Pull requests with commits that do not follow this convention will be rejected and the author will be asked to amend their commit messages before the PR can be reconsidered. If the commit messages are not corrected within a reasonable amount of time the PR will remain rejected and will be closed. Please make sure your commits follow the convention before submitting.
 
 ---
 
