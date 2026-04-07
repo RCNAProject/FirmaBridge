@@ -69,10 +69,23 @@ Commits that do not follow this convention will be asked to be amended before me
 
 ## Code Guidelines
 
-- Keep changes focused. One feature or fix per PR.
-- Do not add features or refactor code beyond what is necessary for your change.
-- All world gen code must stay within chunk bounds to avoid cascading worldgen lag.
-- Test in-game with both TerraFirmaCraft and GregTech CEu loaded before submitting.
+**Keep changes focused.**
+One feature or fix per PR. Do not bundle unrelated changes together. If you find an unrelated bug while working on something, open a separate issue or PR for it.
+
+**Do not over-engineer.**
+Only add what is necessary for your change. Do not add extra abstractions, helper classes, or configuration options that are not required. Do not refactor surrounding code that is not directly related to your change.
+
+**Do not add dead code.**
+Do not leave commented-out code, unused imports, or placeholder methods in your PR. If something is being deferred, note it in the issue tracker instead.
+
+**Follow existing patterns.**
+FirmaBridge has established patterns for how things like recipe registration, ore generation, and config handling are done. Follow those patterns rather than introducing new ones without discussion.
+
+**World gen must stay within chunk bounds.**
+Any block placement during world generation must be clamped to the chunk currently being populated. Accessing blocks in adjacent chunks during generation causes cascading worldgen lag and is not acceptable. Always verify your world gen code does not cross chunk boundaries.
+
+**Test before submitting.**
+All changes must be tested in-game with both TerraFirmaCraft and GregTech CEu loaded. Verify the build compiles cleanly, there are no crash logs on world load, and your change behaves as expected in a real world.
 
 ---
 
