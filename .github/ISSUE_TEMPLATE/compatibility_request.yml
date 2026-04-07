@@ -1,0 +1,47 @@
+name: Compatibility Request
+description: Request compatibility support between FirmaBridge and another mod.
+title: "[Compat Request]: "
+labels: ["compatibility request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to request that FirmaBridge add support for a specific mod. Please note that compatibility requests are reviewed based on how well the mod fits with the TFC/GT theme and the current development priorities.
+
+  - type: input
+    id: mod_name
+    attributes:
+      label: Mod Name and Version
+      placeholder: e.g. Immersive Engineering 0.12-92
+    validations:
+      required: true
+
+  - type: input
+    id: mod_link
+    attributes:
+      label: Mod Download Link
+      placeholder: e.g. https://www.curseforge.com/minecraft/mc-mods/immersive-engineering
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Why Should FirmaBridge Support This Mod?
+      description: Explain how this mod relates to TFC or GT and why the integration would be valuable.
+    validations:
+      required: true
+
+  - type: textarea
+    id: what_is_needed
+    attributes:
+      label: What Would the Integration Do?
+      description: Describe what you expect FirmaBridge to handle — e.g. recipe bridging, world gen, mob spawns, material mapping.
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other information that might help, such as known conflicts or related mods.
