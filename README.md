@@ -117,30 +117,9 @@ config/firmabridge.cfg
 
 ## Contributing
 
-Contributions are welcome. FirmaBridge is developed against the FB-dev branch.
+Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting anything — it covers branch naming, commit conventions, code guidelines, and what to do before writing any code.
 
-**To contribute:**
-
-1. Fork the repository.
-2. Create a feature branch from `FB-dev`.
-3. Make your changes and verify the build compiles cleanly (`gradlew build`).
-4. Open a pull request targeting `FB-dev`.
-
-**Build requirements:**
-
-- Java 25
-- Gradle 9.2.1 (via wrapper)
-
-```
-gradlew runClient   — run the dev client
-gradlew build       — build the mod jar
-```
-
-The compiled jar will be in `build/libs/`.
-
-Please keep pull requests focused. One feature or fix per PR.
-
-All pull requests are reviewed before being accepted or rejected. Contributions that don't align with the mod's goal of bridging TFC and GT cleanly may not be merged, but feedback will always be provided.
+All pull requests are reviewed before being accepted or rejected. Feedback will always be provided regardless of outcome.
 
 ---
 
@@ -149,7 +128,7 @@ All pull requests are reviewed before being accepted or rejected. Contributions 
 - **TheZaltren** — mod author
 - **TerraFirmaCraft Team** — for TFC and its APIs
 - **GregTech CEu Team** — for GTCEu and its APIs
-- **CleanroomMC** — for RetroFuturaGradle and the modernized 1.12.2 build toolchain
+- **CleanroomMC** — for RetroFuturaGradle and the [ForgeDevEnv](https://github.com/CleanroomMC/ForgeDevEnv) template
 
 ---
 
