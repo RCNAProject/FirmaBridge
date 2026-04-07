@@ -1,10 +1,6 @@
-
+<h1 align="center">FirmaBridge</h1>
 <p align="center">
-  <img src="docs/RCNAProject.png" width="200">
-</p>
-<h1 align="center">RCNA 1.12.2 Mod Development Template</h1>
-<p align="center">
-Development template for mods used in the <b>RunicCraft: New Ascension</b> ecosystem.
+  A compatibility bridge between <b>TerraFirmaCraft</b> and <b>GregTech CEu</b> for Minecraft 1.12.2.
 </p>
 <p align="center">
 
@@ -17,158 +13,146 @@ Development template for mods used in the <b>RunicCraft: New Ascension</b> ecosy
 
 ---
 
-# Overview
+## Overview
 
-This repository provides a **modernized development environment for Minecraft 1.12.2 modding**.
+FirmaBridge makes TerraFirmaCraft and GregTech CEu work together cleanly.
 
-It is based on the CleanroomMC template and configured specifically for **RunicCraft: New Ascension (RCNA)** development.
+TFC replaces vanilla ore generation, biomes, and materials with its own systems. GT adds an extensive material and machine recipe ecosystem built on top of vanilla assumptions. Without a bridge, the two mods largely ignore each other — GT veins don't generate in TFC rock, TFC ores have no GT processing recipes, and TFC metals have no GT material equivalents.
 
-The template includes support for:
+FirmaBridge fixes this by:
 
-* RetroFuturaGradle
-* Forge 1.12.2
-* Mixins
-* Coremods
-* Modern Gradle workflow for legacy Minecraft versions
----
-
-# Toolchain
-
-This template runs on the following development stack:
-
-| Component         | Version      |
-| ----------------- | ------------ |
-| Minecraft         | 1.12.2       |
-| Forge             | 14.23.5.2847 |
-| Java              | 25           |
-| Gradle            | 9.2.1        |
-| RetroFuturaGradle | 2.0.2        |
+- Patching GT ore vein definitions to respect TFC rock layers
+- Registering TFC metals and alloys into GT's OreDict system
+- Adding GT machine recipes for TFC-unique alloys and ore grades
 
 ---
 
-# Creating a New Mod
+## Compatibility
 
-1. Click **Use this template** at the top of the repository.
-2. Clone the generated repository.
-
-```
-git clone <your-new-repo>
-```
-
-3. Open the project in **IntelliJ IDEA**.
-
-Before syncing the project ensure Gradle uses **Java 25**:
-
-```
-Settings → Build Tools → Gradle → Gradle JVM
-```
-
-4. When IntelliJ detects the `build.gradle`, choose:
-
-```
-Load Gradle Project
-```
-
-5. Refresh Gradle in the right-side Gradle panel.
+| Mod | Version | Required |
+| --- | ------- | -------- |
+| TerraFirmaCraft | 1.7.23+ | Yes |
+| GregTech CEu | 2.8.10+ | Yes |
+| Minecraft Forge | 14.23.5.2847 | Yes |
 
 ---
 
-## Important: Updating Mod Information
+## Features
 
-Before developing your mod you must update the mod metadata in `gradle.properties`.
+### GT Vein Patcher
+GT ore vein definitions target vanilla stone by default. FirmaBridge patches all 45 GT vein definitions at startup to include TFC rock layers, so GT veins generate correctly inside TFC terrain.
 
-Locate the **Mod Information** section and change:
+### Rock Registry
+Maps TFC rock types to their GT material equivalents. Used internally by the vein patcher and recipe systems.
 
-```
-root_package = net.yourname
-mod_id = yourmodid
-mod_name = Your Mod Name
-```
+| TFC Rock | GT Material |
+| -------- | ----------- |
+| Granite | Granite |
+| Diorite | Diorite |
+| Gabbro | Gabbro |
+| Marble | Marble |
+| Quartzite | Quartzite |
+| Schist | Schist |
+| Phyllite | Phyllite |
+| Gneiss | Gneiss |
 
-After editing these values regenerate the project sources:
+### Material Bridge
+Registers TFC metals and alloys into GT's OreDict system so they are recognized by GT machines and recipes. Covers 84 TFC→GT OreDict entries including ingots, dusts, nuggets, and blocks.
 
-```
-./gradlew clean
-./gradlew build
-```
+### Alloy Macerator Recipes
+Adds GT macerator recipes for TFC-unique alloys that have no GT material counterpart, allowing them to be processed in GT machines.
 
-This will regenerate the `Tags` class used by the mod entrypoint.
+| TFC Alloy | Output |
+| --------- | ------ |
+| Black Steel | Steel Dust |
+| Blue Steel | Steel Dust |
+| Red Steel | Steel Dust |
+| Bismuth Bronze | Bronze Dust |
+| Black Bronze | Bronze Dust |
+| Rose Gold | Gold Dust |
+| Sterling Silver | Silver Dust |
 
+> **Note:** Alloy macerator recipes may be rebalanced or expanded in future versions as TFC/GT progression is refined.
 
-# Development Workflow
+### Ore Quality System
+Adds GT macerator recipes for TFC ore chunks and small ores at all three quality grades. Yields scale with ore grade.
 
-Common development tasks:
+| Grade | Output |
+| ----- | ------ |
+| Poor | 1x Dust |
+| Normal | 2x Dust |
+| Rich | 3x Dust |
+| Small Ore | 1x Small Dust |
 
-### Run the Minecraft client
+56 recipes total, covering all TFC metals supported by GT.
 
-```
-gradlew runClient
-```
-
-### Run the dedicated server
-
-```
-gradlew runServer
-```
-
-### Build the mod jar
-
-```
-gradlew build
-```
-
-The compiled mod will be located in:
-
-```
-build/libs/
-```
-
----
-
-# Project Structure
-
-```
-src/
- └ main/
-    ├ java/
-    │  └ net/zaltren/rcnatemplate
-    │     └ ModMain.java
-    └ resources/
-       ├ assets/
-       ├ mixins.modid.json
-       └ modid.info
-```
+> **Note:** Ore quality yields may be rebalanced in future versions as TFC/GT progression is refined.
 
 ---
 
-# Notes
+## Installation
 
-Dependency configuration:
+1. Install Minecraft 1.12.2 with Forge 14.23.5.2847.
+2. Install TerraFirmaCraft and GregTech CEu.
+3. Drop `FirmaBridge-<version>.jar` into your `mods` folder.
+4. Launch the game.
 
-```
-gradle/scripts/dependencies.gradle
-```
-
-Publishing configuration:
-
-```
-gradle/scripts/publishing.gradle
-```
-
-For mixin development in IntelliJ it is recommended to use:
-
-https://github.com/eigenraven/MinecraftDev/releases
+No additional configuration is required. FirmaBridge activates automatically on world load.
 
 ---
 
-# Credits
+## Configuration
 
-This template is based on the CleanroomMC development template.
+FirmaBridge generates a config file at:
 
-Special thanks to the CleanroomMC team for modernizing the Minecraft 1.12.2 development environment.
+```
+config/firmabridge.cfg
+```
+
+| Option | Default | Description |
+| ------ | ------- | ----------- |
+| `enableGTIntegration` | `true` | Enables the GT/TFC bridge (vein patcher, material bridge, recipe compat, ore quality). Disable to turn off all FirmaBridge functionality. |
 
 ---
 
-# License
+## Contributing
 
-Licensed under the **MIT License**.
+Contributions are welcome. FirmaBridge is developed against the FB-dev branch.
+
+**To contribute:**
+
+1. Fork the repository.
+2. Create a feature branch from `FB-dev`.
+3. Make your changes and verify the build compiles cleanly (`gradlew build`).
+4. Open a pull request targeting `FB-dev`.
+
+**Build requirements:**
+
+- Java 25
+- Gradle 9.2.1 (via wrapper)
+
+```
+gradlew runClient   — run the dev client
+gradlew build       — build the mod jar
+```
+
+The compiled jar will be in `build/libs/`.
+
+Please keep pull requests focused. One feature or fix per PR.
+
+All pull requests are reviewed before being accepted or rejected. Contributions that don't align with the mod's goal of bridging TFC and GT cleanly may not be merged, but feedback will always be provided.
+
+---
+
+## Credits
+
+- **TheZaltren** — mod author
+- **TerraFirmaCraft Team** — for TFC and its APIs
+- **GregTech CEu Team** — for GTCEu and its APIs
+- **CleanroomMC** — for RetroFuturaGradle and the modernized 1.12.2 build toolchain
+
+---
+
+## License
+
+Licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
