@@ -1,0 +1,95 @@
+name: Compatibility Issue
+description: Report a conflict or incompatibility between FirmaBridge and another mod.
+title: "[Compat]: "
+labels: ["compatibility"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to report a mod conflict or incompatibility. Please include as much detail as possible.
+
+  - type: input
+    id: firmabridge_version
+    attributes:
+      label: FirmaBridge Version
+      placeholder: e.g. v0.2.0-alpha
+    validations:
+      required: true
+
+  - type: input
+    id: conflicting_mod
+    attributes:
+      label: Conflicting Mod
+      placeholder: e.g. Immersive Engineering 0.12-92
+    validations:
+      required: true
+
+  - type: input
+    id: tfc_version
+    attributes:
+      label: TerraFirmaCraft Version
+      placeholder: e.g. 1.7.23.181
+    validations:
+      required: true
+
+  - type: input
+    id: gt_version
+    attributes:
+      label: GregTech CEu Version
+      placeholder: e.g. 2.8.10
+    validations:
+      required: true
+
+  - type: input
+    id: forge_version
+    attributes:
+      label: Forge Version
+      placeholder: e.g. 14.23.5.2847
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Issue Description
+      description: Describe the conflict or incompatibility in detail.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Crash Log or Relevant Log Output
+      description: Paste your crash report or relevant log lines here.
+      render: text
+
+  - type: textarea
+    id: other_mods
+    attributes:
+      label: Other Mods Installed
+      description: List any other mods that may be relevant to this issue.

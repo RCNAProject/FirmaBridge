@@ -1,0 +1,44 @@
+name: Feature Request
+description: Suggest a new feature or improvement for FirmaBridge.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting, please note that FirmaBridge is focused on bridging TerraFirmaCraft and GregTech CEu. Feature requests outside this scope may not be accepted.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: A clear description of the feature you are requesting.
+    validations:
+      required: true
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use Case
+      description: Why is this feature needed? How does it improve the TFC/GT experience?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: Proposed Solution
+      description: If you have an idea of how this could be implemented, describe it here.
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you tried any workarounds or alternative approaches?
+
+  - type: input
+    id: mod_context
+    attributes:
+      label: Related Mods
+      description: Are there any specific mods this feature relates to?
+      placeholder: e.g. TerraFirmaCraft, GregTech CEu
