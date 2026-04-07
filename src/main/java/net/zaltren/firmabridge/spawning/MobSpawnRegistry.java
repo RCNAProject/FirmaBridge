@@ -7,7 +7,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.zaltren.firmabridge.FirmaBridge;
-import net.zaltren.firmabridge.config.FirmaBridgeConfig;
 import net.zaltren.firmabridge.worldgen.TFCSurfaceFinder;
 
 import java.util.ArrayList;
@@ -57,20 +56,7 @@ public class MobSpawnRegistry {
      * Call during init phase, after config is loaded.
      */
     public static void loadFromConfig() {
-        int loaded = 0;
-        for (String line : FirmaBridgeConfig.mobSpawnEntries) {
-            line = line.trim();
-            if (line.isEmpty() || line.startsWith("#")) continue;
-
-            MobSpawnEntry entry = parseConfigLine(line);
-            if (entry != null) {
-                ENTRIES.add(entry);
-                loaded++;
-            }
-        }
-        if (loaded > 0) {
-            FirmaBridge.LOGGER.info("MobSpawnRegistry: loaded {} spawn entries from config.", loaded);
-        }
+        // Config-driven spawn entries are disabled until mod integration phase resumes.
     }
 
     /**
