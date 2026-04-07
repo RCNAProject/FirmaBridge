@@ -76,6 +76,20 @@ Commits that do not follow this convention will be asked to be amended before me
 
 ---
 
+## Restricted Changes
+
+Certain types of changes require explicit approval from the project lead or an authorized maintainer before a PR will be considered. Submitting a PR for these without prior approval will result in it being closed.
+
+**Requires maintainer approval:**
+
+- **Refactors** — any change that restructures, renames, or reorganizes existing code without adding new functionality. Refactors carry a high risk of introducing regressions and will only be approved if there is a clear and justified reason.
+- **Dependency changes** — adding, removing, upgrading, or downgrading any dependency in `dependencies.gradle` or `gradle.properties`. Dependency changes can break the build environment for all users and must be reviewed carefully before being accepted.
+- **Build system changes** — any modification to Gradle scripts, build configuration, or the toolchain setup.
+
+If you believe a refactor or dependency change is necessary, open a Feature Request issue first and explain your reasoning. Do not submit code until it has been discussed and approved.
+
+---
+
 ## Reporting Issues
 
 If you find a bug or want to request a feature, please use the appropriate issue template on GitHub:
