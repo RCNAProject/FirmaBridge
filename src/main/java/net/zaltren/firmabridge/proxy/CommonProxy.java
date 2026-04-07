@@ -7,6 +7,7 @@ import net.zaltren.firmabridge.FirmaBridge;
 import net.zaltren.firmabridge.compat.MaterialBridgeHandler;
 import net.zaltren.firmabridge.compat.OreQualityHandler;
 import net.zaltren.firmabridge.compat.RecipeCompatHandler;
+import net.zaltren.firmabridge.compat.StoneCompatHandler;
 import net.zaltren.firmabridge.config.FirmaBridgeConfig;
 import net.zaltren.firmabridge.registry.RockRegistry;
 import net.zaltren.firmabridge.worldgen.GTVeinPatcher;
@@ -29,6 +30,7 @@ public class CommonProxy {
             GTVeinPatcher.apply();
             RecipeCompatHandler.register();
             OreQualityHandler.register();
+            StoneCompatHandler.register();
         }
     }
 
