@@ -33,6 +33,7 @@ commit_parsers = [
     { message = "^fix",          group = "Fixed"   },
     { message = "^change|^refactor|^perf", group = "Changed" },
     { message = "^remove|^revert", group = "Removed" },
+    { message = "^docs: update changelog", skip = true },
     { message = "^docs",         group = "Documentation" },
     { message = "^chore",        skip = true },
     { message = "^ci",           skip = true },
