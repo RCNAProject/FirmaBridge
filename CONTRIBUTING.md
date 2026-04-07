@@ -10,9 +10,17 @@ Please take the time to read through this document before contributing. Followin
 
 ## Before You Start
 
-FirmaBridge is focused on one thing — bridging TerraFirmaCraft and GregTech CEu. Before opening a PR or starting work on a feature, please make sure your contribution fits within that scope. If you are unsure, open a Feature Request or Compatibility Request issue first and discuss it before writing any code.
+FirmaBridge is focused on one thing — bridging TerraFirmaCraft and GregTech CEu. Every contribution, no matter how small, should serve that purpose. If your change does not directly improve how TFC and GT work together, it is likely out of scope.
 
-All pull requests are reviewed before being accepted or rejected. Contributions that don't align with the mod's goals may not be merged, but feedback will always be provided.
+Before writing any code:
+- Check the open issues and pull requests to make sure someone is not already working on the same thing. Duplicate work wastes everyone's time and duplicate PRs will be closed.
+- If you are adding a new feature or compatibility, open a Feature Request or Compatibility Request issue first and wait for feedback before starting work. Starting work before getting approval risks having your PR rejected entirely.
+- If you are fixing a bug, check if there is already an open issue for it. If there is not, open one before submitting a fix so it can be tracked and acknowledged.
+- If you are unsure whether your idea fits the scope of the mod, ask first. It is always better to discuss before spending time on code that may not be accepted.
+
+Do not submit a PR for work that has not been discussed and acknowledged first, unless it is a clear and straightforward bug fix. This protects your time as much as ours — there is nothing more frustrating than putting effort into a contribution only for it to be rejected because it was never discussed.
+
+All pull requests are reviewed before being accepted or rejected. Every submission will receive feedback regardless of outcome. We appreciate the effort contributors put in, and even rejected PRs help shape the direction of the mod.
 
 ---
 
