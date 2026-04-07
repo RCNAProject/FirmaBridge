@@ -15,11 +15,22 @@ All pull requests are reviewed before being accepted or rejected. Contributions 
 ## Getting Started
 
 1. Fork the repository.
-2. Create a feature branch from `FB-dev`.
+2. Create a feature branch from `FB-dev` using the following naming convention:
 
 ```
-git checkout -b feat/your-feature-name
+FB-dev-yourname-what-you-added
 ```
+
+The name portion must be your GitHub username or the name you are widely known by in the Minecraft community. This keeps branch ownership clear and traceable. Do not use a generic or made-up name.
+
+**Examples:**
+```
+FB-dev-TheZaltren-gt-copper-recipes
+FB-dev-sarah-fix-cinnabar-generation
+FB-dev-alex-tfc-alloy-bridge
+```
+
+Branches that do not follow this naming convention will be asked to be renamed before the PR is reviewed.
 
 3. Make your changes.
 4. Verify the build compiles cleanly.
