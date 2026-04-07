@@ -16,7 +16,7 @@ Before writing any code:
 - Check the open issues and pull requests to make sure someone is not already working on the same thing. Duplicate work wastes everyone's time and duplicate PRs will be closed.
 - If you are adding a new feature or compatibility, open a Feature Request or Compatibility Request issue first and wait for feedback before starting work. Starting work before getting approval risks having your PR rejected entirely.
 - If you are fixing a bug, check if there is already an open issue for it. If there is not, open one before submitting a fix so it can be tracked and acknowledged.
-- If you are unsure whether your idea fits the scope of the mod, ask first. It is always better to discuss before spending time on code that may not be accepted.
+- If you are unsure whether your idea fits the scope of the mod, ask first. Open a GitHub issue using the appropriate template. It is always better to discuss before spending time on code that may not be accepted.
 
 Do not submit a PR for work that has not been discussed and acknowledged first, unless it is a clear and straightforward bug fix. This protects your time as much as ours — there is nothing more frustrating than putting effort into a contribution only for it to be rejected because it was never discussed.
 
@@ -27,37 +27,63 @@ All pull requests are reviewed before being accepted or rejected. Every submissi
 ## Getting Started
 
 1. Fork the repository.
+
 2. Create a feature branch from `FB-dev` using the following naming convention:
 
-```
-FB-dev-yourname-what-you-added
-```
+   ```
+   FB-dev-yourname-what-you-added
+   ```
 
-The name portion must be your GitHub username or the name you are widely known by in the Minecraft community. This keeps branch ownership clear and traceable. Do not use a generic or made-up name.
+   The name portion must be your GitHub username or the name you are widely known by in the Minecraft community. This keeps branch ownership clear and traceable. Do not use a generic or made-up name.
 
-**Examples:**
-```
-FB-dev-TheZaltren-gt-copper-recipes
-FB-dev-sarah-fix-cinnabar-generation
-FB-dev-alex-tfc-alloy-bridge
-```
+   **Examples:**
+   ```
+   FB-dev-TheZaltren-gt-copper-recipes
+   FB-dev-sarah-fix-cinnabar-generation
+   FB-dev-alex-tfc-alloy-bridge
+   ```
 
-Branches that do not follow this naming convention will be asked to be renamed before the PR is reviewed.
+   Branches that do not follow this naming convention will be asked to be renamed before the PR is reviewed.
 
-3. Make your changes.
-4. Verify the build compiles cleanly.
+3. Set up your development environment. See the [Dev Environment Setup](#dev-environment-setup) section below for full instructions.
 
-```
-gradlew build
-```
+4. Make your changes.
 
-5. Open a pull request targeting `FB-dev`.
+5. Verify the build compiles cleanly.
+
+   ```
+   gradlew build
+   ```
+
+6. Open a pull request targeting `FB-dev`.
+
+---
+
+## Dev Environment Setup
+
+FirmaBridge is built on the [CleanroomMC ForgeDevEnv template](https://github.com/CleanroomMC/ForgeDevEnv), which uses RetroFuturaGradle to provide a modern build environment for legacy Minecraft versions.
+
+**Requirements:** Java 25 must be installed and set as your active JDK before running any Gradle commands.
+
+**Steps:**
+
+1. Clone your fork and open a terminal in the project root.
+
+2. Launch the game to verify your environment is working:
+
+   ```
+   ./gradlew runClient
+   ```
+
+   This will download dependencies and launch Minecraft with the mod loaded. It will take several minutes the first time. Verify it starts cleanly before making any changes.
+
+3. Import the project into your IDE as a Gradle project if you prefer working in an IDE rather than the terminal.
+
+If you run into setup issues, open a question in the GitHub issue tracker.
 
 ---
 
 ## Build Requirements
-
-FirmaBridge is built on the [CleanroomMC 1.12.2 development template](https://github.com/RCNAProject/RCNA-1.12.2-template), which uses RetroFuturaGradle to provide a modern build environment for legacy Minecraft versions. If you are unfamiliar with this setup, it is recommended to review the CleanroomMC documentation before contributing.
 
 | Component         | Version      |
 | ----------------- | ------------ |
@@ -117,7 +143,7 @@ All changes must be tested in-game with both TerraFirmaCraft and GregTech CEu lo
 
 ## Restricted Changes
 
-Certain types of changes require explicit approval from the project lead or an authorized maintainer before a PR will be considered. Submitting a PR for these without prior approval will result in it being closed.
+Certain types of changes require explicit approval from the project lead (TheZaltren) or an authorized maintainer before a PR will be considered. Submitting a PR for these without prior approval will result in it being closed.
 
 **Requires maintainer approval:**
 
@@ -129,6 +155,19 @@ If you believe a refactor or dependency change is necessary, open a Feature Requ
 
 ---
 
+## Review Process
+
+Once your PR is submitted, here is what to expect:
+
+- All PRs are reviewed by the project lead or an authorized maintainer before being accepted or rejected.
+- You will receive feedback on your submission regardless of outcome. If changes are requested, address them and push to the same branch — the PR will update automatically.
+- If your PR is rejected, the reason will be explained. Rejected PRs are not permanently closed if the underlying issue is fixable — fix the problem and re-request review.
+- Do not open a second PR for the same change while one is already under review.
+
+There is no fixed review timeline, but all submissions will be acknowledged. If you have not heard back after a reasonable amount of time, you may leave a comment on the PR to check in.
+
+---
+
 ## Reporting Issues
 
 If you find a bug or want to request a feature, please use the appropriate issue template on GitHub:
@@ -137,6 +176,8 @@ If you find a bug or want to request a feature, please use the appropriate issue
 - **Feature Request** — new functionality
 - **Compatibility Issue** — conflict with another mod
 - **Compatibility Request** — request support for a specific mod
+
+If you have a question that does not fit any of those templates, open a blank issue on GitHub.
 
 ---
 
