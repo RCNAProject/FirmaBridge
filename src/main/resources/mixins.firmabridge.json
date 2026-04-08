@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.zaltren.firmabridge.mixin",
+  "refmap": "mixins.firmabridge.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MetaBlocksMixin",
+    "CachedGridEntryMixin"
+  ]
+}

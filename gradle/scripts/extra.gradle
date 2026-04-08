@@ -3,3 +3,13 @@
 
 // If you wish to use the default helper methods, uncomment the line below
 // apply from: 'gradle/scripts/helpers.gradle'
+
+// modUtils.enableMixins() in this version of RFG does not inject MixinConfigs into the
+// jar manifest. Add it here so MixinBooter can discover the mixin configuration at runtime.
+if (propertyBool('use_mixins')) {
+    jar {
+        manifest {
+            attributes(['MixinConfigs': 'mixins.firmabridge.json'])
+        }
+    }
+}

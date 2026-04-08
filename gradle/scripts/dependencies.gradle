@@ -44,7 +44,8 @@ dependencies {
         transitive = false
     }
 
-    // Dev environment
+    // Dev environment + JEI API at compile time for plugin
+    compileOnly rfg.deobf('curse.maven:jei-238222:5846804')
     runtimeOnly rfg.deobf('curse.maven:jei-238222:5846804')
 
     // Example - Dependency descriptor:
