@@ -53,13 +53,13 @@ if (propertyBool('publish_to_curseforge')) {
             }
             mainArtifact tasks.reobfJar.archiveFile.get().asFile, {
                 displayName = "${propertyString('mod_name')} ${propertyString('mod_version')}"
-                if (propertyBool('use_mixins')) {
-                    relations {
+                relations {
+                    requiredDependency 'terrafirmacraft'
+                    requiredDependency 'gregtech-ce-unofficial'
+                    if (propertyBool('use_mixins')) {
                         requiredDependency 'mixin-booter'
                     }
-                }
-                if (propertyBool('use_asset_mover')) {
-                    relations {
+                    if (propertyBool('use_asset_mover')) {
                         requiredDependency 'assetmover'
                     }
                 }

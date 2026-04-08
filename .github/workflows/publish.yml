@@ -1,0 +1,24 @@
+name: Publish to CurseForge
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        run: |
+          git clone https://x-access-token:${{ secrets.CHANGELOG_PAT }}@github.com/${{ github.repository }}.git .
+          git checkout ${{ github.ref_name }}
+
+      - name: Build and publish
+        run: |
+          chmod +x gradlew
+          ./gradlew curseforge -Ppublish_to_curseforge=true
+        env:
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
