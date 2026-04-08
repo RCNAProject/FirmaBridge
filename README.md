@@ -22,6 +22,7 @@ TFC replaces vanilla ore generation, biomes, and materials with its own systems.
 FirmaBridge fixes this by:
 
 - Patching GT ore vein definitions to respect TFC rock layers
+- Registering all 21 TFC stone types as GT StoneTypes so GT ores generate and render correctly in TFC terrain
 - Registering TFC metals and alloys into GT's OreDict system
 - Adding GT machine recipes for TFC-unique alloys and ore grades
 
@@ -45,16 +46,31 @@ GT ore vein definitions target vanilla stone by default. FirmaBridge patches all
 ### Rock Registry
 Maps TFC rock types to their GT material equivalents. Used internally by the vein patcher and recipe systems.
 
-| TFC Rock | GT Material |
-| -------- | ----------- |
-| Granite | Granite |
-| Diorite | Diorite |
-| Gabbro | Gabbro |
-| Marble | Marble |
-| Quartzite | Quartzite |
-| Schist | Schist |
-| Phyllite | Phyllite |
-| Gneiss | Gneiss |
+All 21 TFC rock types are registered as GT StoneTypes so GT ores generate in every layer. Rocks with no direct GT material equivalent use a nearest-equivalent approximation for ore block rendering.
+
+| TFC Rock | GT Material | Notes |
+| -------- | ----------- | ----- |
+| Granite | Granite | Direct equivalent |
+| Diorite | Diorite | Direct equivalent |
+| Basalt | Basalt | Direct equivalent |
+| Andesite | Andesite | Direct equivalent |
+| Marble | Marble | Direct equivalent |
+| Quartzite | Quartzite | Direct equivalent |
+| Rock Salt | Rock Salt | Direct equivalent |
+| Chert | Flint | Closest GT equivalent |
+| Gabbro | Basalt | Approximation — no GT gabbro |
+| Rhyolite | Granite | Approximation — no GT rhyolite |
+| Dacite | Andesite | Approximation — no GT dacite |
+| Limestone | Calcite | Approximation — no GT limestone |
+| Dolomite | Calcite | Approximation — no GT dolomite |
+| Chalk | Calcite | Approximation — no GT chalk |
+| Shale | Stone | Approximation — no GT equivalent |
+| Claystone | Stone | Approximation — no GT equivalent |
+| Conglomerate | Stone | Approximation — no GT equivalent |
+| Slate | Stone | Approximation — no GT equivalent |
+| Phyllite | Stone | Approximation — no GT equivalent |
+| Schist | Stone | Approximation — no GT equivalent |
+| Gneiss | Stone | Approximation — no GT equivalent |
 
 ### Material Bridge
 Registers TFC metals and alloys into GT's OreDict system so they are recognized by GT machines and recipes. Covers 84 TFC→GT OreDict entries including ingots, dusts, nuggets, and blocks.
