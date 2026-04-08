@@ -36,5 +36,6 @@ public class CommonProxy {
             StoneCompatHandler.register();
             TFCStoneTypeHandler.hideFromCreativeAndJEI("stone");
         }
+    }
 
 }
