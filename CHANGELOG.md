@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - Expand Before You Start section in CONTRIBUTING.md
 - Expand CONTRIBUTING with dev setup, review process, and corrections
 - Trim contributing section and correct CleanroomMC credit
+- Update README with accurate 21-rock stone type table and approximations
 
 ### Fixed
 
