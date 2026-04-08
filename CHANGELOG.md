@@ -38,6 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - Skip auto changelog commit in git-cliff output
 - Update git-cliff-action from v3 to v4
 - Replace third-party actions with direct run steps for org policy compliance
+- Install Java 25 in publish workflow for RFG compatibility
 
 ---## [v0.1.0-alpha] — 2026-04-07
 
