@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 - Add TFC stone macerator recipes and fix GT vein strata coverage
 - Register all 21 TFC stone types as GT StoneTypes and fix worldgen NPE
+- Add CurseForge publish workflow and set project ID
 
 ### Documentation
 
