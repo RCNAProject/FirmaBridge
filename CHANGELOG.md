@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 ### Added
 
 - Add geological vein weight system for TFC rock preference
+- Extend GT machine processing to all TFC rocks and non-metal ores
 
 ### Fixed
 
