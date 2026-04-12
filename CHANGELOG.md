@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - Add missing closing brace in CommonProxy
 - Refine geological vein weights for TFC rock types
 - Correct GT material mappings for TFC alloys and wrought iron
+- Add localization for FirmaBridge custom GT materials
 
 ---## [v0.1.2-alpha] — 2026-04-08
 
