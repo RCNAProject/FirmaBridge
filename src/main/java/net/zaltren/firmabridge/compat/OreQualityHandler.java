@@ -68,18 +68,29 @@ public class OreQualityHandler {
         METAL_TO_GT.put(DefaultMetals.BRONZE,        Materials.Bronze);
         METAL_TO_GT.put(DefaultMetals.BRASS,         Materials.Brass);
 
-        // Non-metal ores — resolved by name at register() time
+        // Non-metal ores — resolved by name at register() time.
+        // GT built-in materials (always present):
         NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "bituminous_coal"), "coal");
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "lignite"),         "lignite");
         NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "graphite"),        "graphite");
         NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "lapis_lazuli"),    "lapis");
         NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "saltpeter"),       "saltpeter");
         NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "sulfur"),          "sulfur");
         NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "cinnabar"),        "cinnabar");
         NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "pitchblende"),     "pitchblende");
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "kaolinite"),       "kaolinite");
         NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "borax"),           "borax");
         NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "olivine"),         "olivine");
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "gypsum"),          "gypsum");
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "satinspar"),       "gypsum");    // gypsum variety
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "selenite"),        "gypsum");    // gypsum variety
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "microcline"),      "potassium_feldspar");
+
+        // FirmaBridge custom materials (registered in FirmaBridgeMaterials, available at postInit):
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "lignite"),         "lignite");   // FirmaBridgeMaterials.LIGNITE
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "jet"),             "lignite");   // TFC jet is a lignite variety
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "kaolinite"),       "kaolinite"); // FirmaBridgeMaterials.KAOLINITE
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "sylvite"),         "sylvite");   // FirmaBridgeMaterials.SYLVITE
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "cryolite"),        "cryolite");  // FirmaBridgeMaterials.CRYOLITE
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "serpentine"),      "serpentine");// FirmaBridgeMaterials.SERPENTINE
     }
 
     public static void register() {
