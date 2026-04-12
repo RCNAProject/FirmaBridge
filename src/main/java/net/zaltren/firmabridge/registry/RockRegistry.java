@@ -19,45 +19,50 @@ import java.util.Map;
  * (ore gen, material bridges, recipe compat) build on top of it.
  *
  * Resolved lazily in postInit after both TFC and GT registries are populated.
- * Rocks with no GT equivalent map to null and are silently skipped by consumers.
+ * Rocks with a direct GT equivalent use that material. Rocks with no direct
+ * GT equivalent use the nearest geological approximation (e.g. limestone →
+ * calcite, gabbro → basalt) so GT machine processing works for all 21 TFC
+ * rock types rather than only the 8 with exact matches.
  */
 public class RockRegistry {
 
-    // GT material registry name for each TFC rock ResourceLocation. Null = no GT equivalent.
+    // GT material registry name for each TFC rock ResourceLocation.
+    // Direct equivalents: exact GT material match.
+    // Approximations: nearest GT material by composition/geology (noted in comment).
     private static final Map<ResourceLocation, String> GT_NAMES = new LinkedHashMap<ResourceLocation, String>();
 
     // Resolved at postInit: Rock instance -> GT Material.
     private static final Map<Rock, Material> ROCK_TO_MATERIAL = new LinkedHashMap<Rock, Material>();
 
     static {
-        // Igneous Intrusive
-        GT_NAMES.put(DefaultRocks.GRANITE,      "granite");
-        GT_NAMES.put(DefaultRocks.DIORITE,      "diorite");
-        GT_NAMES.put(DefaultRocks.GABBRO,       null);       // not in GT CEu 2.8.10
+        // --- Igneous Intrusive ---
+        GT_NAMES.put(DefaultRocks.GRANITE,      "granite");           // direct
+        GT_NAMES.put(DefaultRocks.DIORITE,      "diorite");           // direct
+        GT_NAMES.put(DefaultRocks.GABBRO,       "basalt");            // approx: mafic equivalent
 
-        // Igneous Extrusive
-        GT_NAMES.put(DefaultRocks.RHYOLITE,     null);       // not in GT CEu 2.8.10
-        GT_NAMES.put(DefaultRocks.BASALT,       "basalt");
-        GT_NAMES.put(DefaultRocks.ANDESITE,     "andesite");
-        GT_NAMES.put(DefaultRocks.DACITE,       null);       // not in GT CEu 2.8.10
+        // --- Igneous Extrusive ---
+        GT_NAMES.put(DefaultRocks.BASALT,       "basalt");            // direct
+        GT_NAMES.put(DefaultRocks.ANDESITE,     "andesite");          // direct
+        GT_NAMES.put(DefaultRocks.RHYOLITE,     "granite");           // approx: felsic equivalent
+        GT_NAMES.put(DefaultRocks.DACITE,       "andesite");          // approx: intermediate equivalent
 
-        // Sedimentary
-        GT_NAMES.put(DefaultRocks.SHALE,        null);       // not in GT CEu 2.8.10
-        GT_NAMES.put(DefaultRocks.CLAYSTONE,    null);       // not in GT CEu 2.8.10
-        GT_NAMES.put(DefaultRocks.ROCKSALT,     "rock_salt");
-        GT_NAMES.put(DefaultRocks.LIMESTONE,    null);       // not in GT CEu 2.8.10
-        GT_NAMES.put(DefaultRocks.CONGLOMERATE, null);       // not in GT CEu 2.8.10
-        GT_NAMES.put(DefaultRocks.DOLOMITE,     null);       // not in GT CEu 2.8.10
-        GT_NAMES.put(DefaultRocks.CHERT,        "flint");    // closest GT equivalent
-        GT_NAMES.put(DefaultRocks.CHALK,        null);       // not in GT CEu 2.8.10
+        // --- Sedimentary ---
+        GT_NAMES.put(DefaultRocks.SHALE,        "stone");             // approx: generic fallback
+        GT_NAMES.put(DefaultRocks.CLAYSTONE,    "stone");             // approx: generic fallback
+        GT_NAMES.put(DefaultRocks.ROCKSALT,     "rock_salt");         // direct
+        GT_NAMES.put(DefaultRocks.LIMESTONE,    "calcite");           // approx: CaCO3 → calcite
+        GT_NAMES.put(DefaultRocks.CONGLOMERATE, "stone");             // approx: generic fallback
+        GT_NAMES.put(DefaultRocks.DOLOMITE,     "calcite");           // approx: CaMg(CO3)2 → calcite
+        GT_NAMES.put(DefaultRocks.CHERT,        "flint");             // approx: siliceous equivalent
+        GT_NAMES.put(DefaultRocks.CHALK,        "calcite");           // approx: CaCO3 → calcite
 
-        // Metamorphic
-        GT_NAMES.put(DefaultRocks.QUARTZITE,    "quartzite");
-        GT_NAMES.put(DefaultRocks.SLATE,        null);       // not in GT CEu 2.8.10
-        GT_NAMES.put(DefaultRocks.PHYLLITE,     null);       // not in GT CEu 2.8.10
-        GT_NAMES.put(DefaultRocks.SCHIST,       null);       // not in GT CEu 2.8.10
-        GT_NAMES.put(DefaultRocks.GNEISS,       null);       // not in GT CEu 2.8.10
-        GT_NAMES.put(DefaultRocks.MARBLE,       "marble");
+        // --- Metamorphic ---
+        GT_NAMES.put(DefaultRocks.QUARTZITE,    "quartzite");         // direct
+        GT_NAMES.put(DefaultRocks.SLATE,        "stone");             // approx: generic fallback
+        GT_NAMES.put(DefaultRocks.PHYLLITE,     "stone");             // approx: generic fallback
+        GT_NAMES.put(DefaultRocks.SCHIST,       "stone");             // approx: generic fallback
+        GT_NAMES.put(DefaultRocks.GNEISS,       "stone");             // approx: generic fallback
+        GT_NAMES.put(DefaultRocks.MARBLE,       "marble");            // direct
     }
 
     /**

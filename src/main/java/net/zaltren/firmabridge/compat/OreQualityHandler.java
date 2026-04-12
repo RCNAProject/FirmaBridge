@@ -1,5 +1,6 @@
 package net.zaltren.firmabridge.compat;
 
+import gregtech.api.GregTechAPI;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.ingredients.GTRecipeItemInput;
 import gregtech.api.unification.OreDictUnifier;
@@ -32,7 +33,8 @@ import java.util.Map;
  *   NORMAL chunk → 2× dust     (matches GT standard ore yield)
  *   RICH chunk → 3× dust
  *
- * Only ores whose metal maps to a GT material receive recipes.
+ * Covers both metal ores (mapped via TFC Metal type) and non-metal ores
+ * (coal, graphite, lapis, sulfur, etc.) mapped by registry name.
  * TFC-unique alloys (Black Steel, etc.) are skipped — no GT dust exists for them.
  *
  * Called in postInit, after GT has registered its own recipes.
@@ -42,9 +44,15 @@ public class OreQualityHandler {
     // TFC Metal ResourceLocation → GT Material for dust output.
     // Only covers TFC metals that have a GT material counterpart.
     private static final Map<ResourceLocation, Material> METAL_TO_GT =
-            new LinkedHashMap<ResourceLocation, Material>();
+            new LinkedHashMap<>();
+
+    // TFC non-metal ore ResourceLocation → GT material name (resolved at register() time).
+    // Uses string-based GT material lookup so missing GT materials are skipped gracefully.
+    private static final Map<ResourceLocation, String> NON_METAL_GT_NAMES =
+            new LinkedHashMap<>();
 
     static {
+        // Metal ores
         METAL_TO_GT.put(DefaultMetals.COPPER,       Materials.Copper);
         METAL_TO_GT.put(DefaultMetals.TIN,           Materials.Tin);
         METAL_TO_GT.put(DefaultMetals.GOLD,          Materials.Gold);
@@ -59,17 +67,47 @@ public class OreQualityHandler {
         METAL_TO_GT.put(DefaultMetals.STEEL,         Materials.Steel);
         METAL_TO_GT.put(DefaultMetals.BRONZE,        Materials.Bronze);
         METAL_TO_GT.put(DefaultMetals.BRASS,         Materials.Brass);
+
+        // Non-metal ores — resolved by name at register() time
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "bituminous_coal"), "coal");
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "lignite"),         "lignite");
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "graphite"),        "graphite");
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "lapis_lazuli"),    "lapis");
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "saltpeter"),       "saltpeter");
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "sulfur"),          "sulfur");
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "cinnabar"),        "cinnabar");
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "pitchblende"),     "pitchblende");
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "kaolinite"),       "kaolinite");
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "borax"),           "borax");
+        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "olivine"),         "olivine");
     }
 
     public static void register() {
+        // Resolve non-metal GT materials by name (GT registry is ready at postInit)
+        Map<ResourceLocation, Material> nonMetalToGT = new LinkedHashMap<>();
+        for (Map.Entry<ResourceLocation, String> e : NON_METAL_GT_NAMES.entrySet()) {
+            Material m = GregTechAPI.materialManager.getMaterial(e.getValue());
+            if (m != null) {
+                nonMetalToGT.put(e.getKey(), m);
+            } else {
+                FirmaBridge.LOGGER.warn("OreQualityHandler: GT material '{}' not found for TFC ore {}, skipping.",
+                        e.getValue(), e.getKey());
+            }
+        }
+
         int added = 0;
 
         for (Ore ore : TFCRegistries.ORES.getValuesCollection()) {
             Metal metal = ore.getMetal();
-            if (metal == null) continue; // non-metal ore (sulfur, saltpeter, etc.)
+            Material gtMaterial;
 
-            Material gtMaterial = METAL_TO_GT.get(metal.getRegistryName());
-            if (gtMaterial == null) continue; // TFC-unique alloy, no GT dust
+            if (metal != null) {
+                gtMaterial = METAL_TO_GT.get(metal.getRegistryName());
+                if (gtMaterial == null) continue; // TFC-unique alloy, no GT dust
+            } else {
+                gtMaterial = nonMetalToGT.get(ore.getRegistryName());
+                if (gtMaterial == null) continue; // not mapped
+            }
 
             if (ore.isGraded()) {
                 added += addGradedRecipes(ore, gtMaterial);
