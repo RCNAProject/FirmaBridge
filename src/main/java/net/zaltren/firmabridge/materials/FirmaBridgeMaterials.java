@@ -62,7 +62,7 @@ public class FirmaBridgeMaterials {
                 .gem()
                 .dust()
                 .color(0x5C4033)
-                .iconSet(MaterialIconSet.ROUGH)
+                .iconSet(MaterialIconSet.DULL)
                 .burnTime(800)
                 .components(Materials.Carbon, 1)
                 .build();
