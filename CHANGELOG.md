@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 ---
 ## [Unreleased]
 
+### Added
+
+- Add geological vein weight system for TFC rock preference
+
 ### Fixed
 
 - Trigger changelog on tags and always commit to FB-dev
