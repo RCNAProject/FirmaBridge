@@ -59,7 +59,6 @@ public class FirmaBridgeMaterials {
         // TFC brown coal — lower grade than bituminous coal, higher than peat.
         // Half the burn value of coal. Centrifuge → carbon dust.
         LIGNITE = new Material.Builder(24002, new ResourceLocation(Tags.MOD_ID, "lignite"))
-                .gem()
                 .dust()
                 .color(0x5C4033)
                 .iconSet(MaterialIconSet.DULL)
