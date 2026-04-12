@@ -77,9 +77,11 @@ public class VeinRockWeightRegistry {
             r(DefaultRocks.GNEISS,       0.5f));
 
         // --- MVT (Mississippi Valley Type) lead-silver ---
+        // Chalk is a carbonate like limestone, gets a reduced MVT weight
         define("gregtech.veins.ore.galena",
             r(DefaultRocks.LIMESTONE,    1.0f),
             r(DefaultRocks.DOLOMITE,     1.0f),
+            r(DefaultRocks.CHALK,        0.7f),
             r(DefaultRocks.MARBLE,       0.4f),
             r(DefaultRocks.GRANITE,      0.3f),
             r(DefaultRocks.SCHIST,       0.3f));
@@ -89,13 +91,14 @@ public class VeinRockWeightRegistry {
             r(DefaultRocks.SHALE,        1.0f),
             r(DefaultRocks.CLAYSTONE,    1.0f),
             r(DefaultRocks.CONGLOMERATE, 0.4f),
-            r(DefaultRocks.LIMESTONE,    0.4f));
+            r(DefaultRocks.LIMESTONE,    0.4f),
+            r(DefaultRocks.DOLOMITE,     0.3f));
 
-        // Banded iron / limonite weathering
+        // Banded iron / limonite weathering — chert is 1.0 because BIF and chert are the same formation
         define("gregtech.veins.ore.iron",
             r(DefaultRocks.SHALE,        1.0f),
             r(DefaultRocks.CLAYSTONE,    1.0f),
-            r(DefaultRocks.CHERT,        0.7f),
+            r(DefaultRocks.CHERT,        1.0f),
             r(DefaultRocks.CONGLOMERATE, 0.7f),
             r(DefaultRocks.LIMESTONE,    0.4f));
 
@@ -125,10 +128,11 @@ public class VeinRockWeightRegistry {
             r(DefaultRocks.SHALE,        0.5f),
             r(DefaultRocks.SCHIST,       0.5f));
 
-        // Phosphate: carbonatite / sedimentary
+        // Phosphate: carbonatite / sedimentary — dolomite is carbonate, gets reduced weight vs limestone
         define("gregtech.veins.ore.apatite",
             r(DefaultRocks.LIMESTONE,    1.0f),
             r(DefaultRocks.CHALK,        1.0f),
+            r(DefaultRocks.DOLOMITE,     0.4f),
             r(DefaultRocks.GRANITE,      0.5f),
             r(DefaultRocks.GNEISS,       0.5f));
 
@@ -150,6 +154,7 @@ public class VeinRockWeightRegistry {
         define("gregtech.veins.ore.lapis",
             r(DefaultRocks.MARBLE,       1.0f),
             r(DefaultRocks.LIMESTONE,    0.7f),
+            r(DefaultRocks.DOLOMITE,     0.4f),
             r(DefaultRocks.GNEISS,       0.4f));
 
         // Soapstone / talc — altered ultramafic
