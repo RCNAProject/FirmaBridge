@@ -41,7 +41,7 @@ public class MaterialBridgeHandler {
 
         // Iron progression
         METAL_OREDICT_NAMES.put(DefaultMetals.PIG_IRON,        "PigIron");
-        METAL_OREDICT_NAMES.put(DefaultMetals.WROUGHT_IRON,    "Iron");     // TFC wrought iron = GT iron
+        METAL_OREDICT_NAMES.put(DefaultMetals.WROUGHT_IRON,    "WroughtIron"); // GT has WroughtIron as distinct material
 
         // Steel progression — key progression handoff point
         METAL_OREDICT_NAMES.put(DefaultMetals.STEEL,           "Steel");

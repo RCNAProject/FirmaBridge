@@ -28,30 +28,27 @@ public class RecipeCompatHandler {
     }
 
     /**
-     * Macerator recipes: TFC alloy ingots → nearest GT dust equivalent.
+     * Macerator recipes: TFC alloy ingots → correct GT material dust.
      *
-     * Decomposition logic:
-     *   Black/Blue/Red Steel  — steel-family alloys → Steel dust
-     *   Bismuth Bronze        — Bi+Cu+Sn+Zn alloy  → Bronze dust (Bi byproduct chanced)
-     *   Black Bronze          — Cu+Au+Ag alloy      → Bronze dust
-     *   Rose Gold             — Au+Cu alloy         → Gold dust
-     *   Sterling Silver       — Ag+Cu alloy         → Silver dust
+     * GT CEu has materials for all TFC alloys, so each ingot maps to its own
+     * dust rather than a lossy nearest-equivalent. These explicit recipes act
+     * as a safety net alongside GT's OreDict auto-generated recipes.
      */
     private static int addMaceratorRecipes() {
         int count = 0;
 
-        // Steel-family alloys (all are iron/steel based) → Steel dust
-        count += macerate("ingotBlackSteel",    Materials.Steel,  1, 400, 2);
-        count += macerate("ingotBlueSteel",     Materials.Steel,  1, 400, 2);
-        count += macerate("ingotRedSteel",      Materials.Steel,  1, 400, 2);
+        // Steel-family alloys → their own GT material dust
+        count += macerate("ingotBlackSteel",     Materials.BlackSteel,     1, 400, 2);
+        count += macerate("ingotBlueSteel",      Materials.BlueSteel,      1, 400, 2);
+        count += macerate("ingotRedSteel",       Materials.RedSteel,       1, 400, 2);
 
-        // Bronze-family alloys → Bronze dust
-        count += macerate("ingotBismuthBronze", Materials.Bronze, 1, 300, 2);
-        count += macerate("ingotBlackBronze",   Materials.Bronze, 1, 300, 2);
+        // Bronze-family alloys → their own GT material dust
+        count += macerate("ingotBismuthBronze",  Materials.BismuthBronze,  1, 300, 2);
+        count += macerate("ingotBlackBronze",    Materials.BlackBronze,    1, 300, 2);
 
-        // Precious metal alloys
-        count += macerate("ingotRoseGold",       Materials.Gold,   1, 300, 2);
-        count += macerate("ingotSterlingSilver",  Materials.Silver, 1, 300, 2);
+        // Precious metal alloys → their own GT material dust
+        count += macerate("ingotRoseGold",       Materials.RoseGold,       1, 300, 2);
+        count += macerate("ingotSterlingSilver", Materials.SterlingSilver, 1, 300, 2);
 
         return count;
     }

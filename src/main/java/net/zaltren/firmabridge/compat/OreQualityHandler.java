@@ -62,8 +62,8 @@ public class OreQualityHandler {
         METAL_TO_GT.put(DefaultMetals.BISMUTH,       Materials.Bismuth);
         METAL_TO_GT.put(DefaultMetals.ZINC,          Materials.Zinc);
         METAL_TO_GT.put(DefaultMetals.PLATINUM,      Materials.Platinum);
-        METAL_TO_GT.put(DefaultMetals.PIG_IRON,      Materials.Iron);     // GT has no PigIron material; map to Iron
-        METAL_TO_GT.put(DefaultMetals.WROUGHT_IRON,  Materials.Iron);
+        METAL_TO_GT.put(DefaultMetals.PIG_IRON,      Materials.Iron);        // GT has no PigIron; pig iron ore → iron dust
+        METAL_TO_GT.put(DefaultMetals.WROUGHT_IRON,  Materials.WroughtIron); // GT has WroughtIron as distinct material
         METAL_TO_GT.put(DefaultMetals.STEEL,         Materials.Steel);
         METAL_TO_GT.put(DefaultMetals.BRONZE,        Materials.Bronze);
         METAL_TO_GT.put(DefaultMetals.BRASS,         Materials.Brass);
