@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - Add geological vein weight system for TFC rock preference
 - Extend GT machine processing to all TFC rocks and non-metal ores
 - Add custom GT materials for TFC-specific minerals and extend ore processing
+- Implement pig iron → iron → wrought iron GT progression chain
 
 ### Fixed
 
