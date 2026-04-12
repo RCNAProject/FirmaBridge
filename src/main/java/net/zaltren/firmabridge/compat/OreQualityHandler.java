@@ -62,8 +62,8 @@ public class OreQualityHandler {
         METAL_TO_GT.put(DefaultMetals.BISMUTH,       Materials.Bismuth);
         METAL_TO_GT.put(DefaultMetals.ZINC,          Materials.Zinc);
         METAL_TO_GT.put(DefaultMetals.PLATINUM,      Materials.Platinum);
-        METAL_TO_GT.put(DefaultMetals.PIG_IRON,      Materials.Iron);        // GT has no PigIron; pig iron ore → iron dust
-        METAL_TO_GT.put(DefaultMetals.WROUGHT_IRON,  Materials.WroughtIron); // GT has WroughtIron as distinct material
+        // PIG_IRON resolved at register() time — FirmaBridgeMaterials.PIG_IRON isn't set yet at class load
+        METAL_TO_GT.put(DefaultMetals.WROUGHT_IRON,  Materials.WroughtIron);
         METAL_TO_GT.put(DefaultMetals.STEEL,         Materials.Steel);
         METAL_TO_GT.put(DefaultMetals.BRONZE,        Materials.Bronze);
         METAL_TO_GT.put(DefaultMetals.BRASS,         Materials.Brass);
@@ -94,6 +94,16 @@ public class OreQualityHandler {
     }
 
     public static void register() {
+        // Resolve pig iron to FirmaBridge's custom material (registered during MaterialEvent).
+        // Falls back to Materials.Iron if the custom material failed to register.
+        Material pigIron = GregTechAPI.materialManager.getMaterial("pig_iron");
+        if (pigIron != null) {
+            METAL_TO_GT.put(DefaultMetals.PIG_IRON, pigIron);
+        } else {
+            METAL_TO_GT.put(DefaultMetals.PIG_IRON, Materials.Iron);
+            FirmaBridge.LOGGER.warn("OreQualityHandler: pig_iron material not found, falling back to Iron.");
+        }
+
         // Resolve non-metal GT materials by name (GT registry is ready at postInit)
         Map<ResourceLocation, Material> nonMetalToGT = new LinkedHashMap<>();
         for (Map.Entry<ResourceLocation, String> e : NON_METAL_GT_NAMES.entrySet()) {

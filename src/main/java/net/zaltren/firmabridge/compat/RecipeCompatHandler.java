@@ -8,6 +8,7 @@ import gregtech.api.unification.ore.OrePrefix;
 import gregtech.api.recipes.ingredients.GTRecipeOreInput;
 import net.minecraft.item.ItemStack;
 import net.zaltren.firmabridge.FirmaBridge;
+import net.zaltren.firmabridge.materials.FirmaBridgeMaterials;
 
 /**
  * Adds explicit GT machine recipes for TFC metals that GT's auto-recipe
@@ -24,7 +25,8 @@ public class RecipeCompatHandler {
 
     public static void register() {
         int added = addMaceratorRecipes();
-        FirmaBridge.LOGGER.info("RecipeCompatHandler: added {} GT machine recipes for TFC-unique alloys.", added);
+        added += addBlastFurnaceRecipes();
+        FirmaBridge.LOGGER.info("RecipeCompatHandler: added {} GT machine recipes for TFC materials.", added);
     }
 
     /**
@@ -51,6 +53,37 @@ public class RecipeCompatHandler {
         count += macerate("ingotSterlingSilver", Materials.SterlingSilver, 1, 300, 2);
 
         return count;
+    }
+
+    /**
+     * EBF recipes bridging TFC iron progression into GT's processing chain.
+     *
+     * Pig iron (Fe9C1) is the raw output of smelting TFC iron ore. Processing it
+     * in the EBF removes the excess carbon, yielding purified iron ingot with a
+     * chance of recovering carbon dust as a byproduct.
+     *
+     * Chain: TFC iron ore → macerator → pig iron dust
+     *                                       ↓ EBF 800°C
+     *                                   iron ingot (+25% carbon dust)
+     *                                       ↓ EBF 1000°C (GT auto-recipe)
+     *                                   wrought iron → steel
+     */
+    private static int addBlastFurnaceRecipes() {
+        if (FirmaBridgeMaterials.PIG_IRON == null) {
+            FirmaBridge.LOGGER.warn("RecipeCompatHandler: PIG_IRON material not registered, skipping EBF recipe.");
+            return 0;
+        }
+
+        RecipeMaps.BLAST_RECIPES.recipeBuilder()
+                .input(OrePrefix.dust, FirmaBridgeMaterials.PIG_IRON)
+                .output(OrePrefix.ingot, Materials.Iron)
+                .chancedOutput(OrePrefix.dust, Materials.Carbon, 2500, 0) // 25% carbon dust byproduct
+                .blastFurnaceTemp(800)
+                .duration(400)
+                .EUt(120)
+                .buildAndRegister();
+
+        return 1;
     }
 
     /**
