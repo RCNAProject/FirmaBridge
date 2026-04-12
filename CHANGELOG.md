@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 - Add geological vein weight system for TFC rock preference
 - Extend GT machine processing to all TFC rocks and non-metal ores
+- Add custom GT materials for TFC-specific minerals and extend ore processing
 
 ### Fixed
 
@@ -18,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - Move conditional relations blocks outside CurseGradle DSL closure
 - Add missing closing brace in CommonProxy
 - Refine geological vein weights for TFC rock types
+- Correct GT material mappings for TFC alloys and wrought iron
 
 ---## [v0.1.2-alpha] — 2026-04-08
 
