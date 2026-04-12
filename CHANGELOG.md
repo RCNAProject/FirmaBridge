@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - Correct GT material mappings for TFC alloys and wrought iron
 - Add localization for FirmaBridge custom GT materials
 - Change lignite iconSet from ROUGH to DULL to avoid 3D cube rendering
+- Remove gem() from lignite, dust-only is sufficient
 
 ---## [v0.1.2-alpha] — 2026-04-08
 
