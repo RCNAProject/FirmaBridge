@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - Refine geological vein weights for TFC rock types
 - Correct GT material mappings for TFC alloys and wrought iron
 - Add localization for FirmaBridge custom GT materials
+- Change lignite iconSet from ROUGH to DULL to avoid 3D cube rendering
 
 ---## [v0.1.2-alpha] — 2026-04-08
 
