@@ -9,4 +9,7 @@ public class FirmaBridgeConfig {
     @Config.Comment("Enable GregTech CEu integration module (ore gen coexistence, material bridges, recipe compat).")
     public static boolean enableGTIntegration = true;
 
+    @Config.Comment("Enable village generation in TFC worlds. Uses vanilla village structures placed on TFC terrain.")
+    public static boolean enableVillages = true;
+
 }

@@ -10,6 +10,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
+## [v0.2.0-beta] — 2026-04-13
+
+### Added
+
+- Add vanilla village generation in TFC worlds (VillageWorldGen + MapGenVillageMixin)
+- Bypass TFC biome gate in MapGenVillage.canSpawnStructureAtCoords to allow grid-valid positions
+- Register village world generator via config toggle (enableVillages)
+
+---
+
 ## [v0.1.4-beta] — 2026-04-12
 
 ### Added
