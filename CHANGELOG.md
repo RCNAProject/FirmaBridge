@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 ---
 ## [Unreleased]
 
+---## [v0.1.4-alpha] — 2026-04-12
+
 ### Added
 
 - Add geological vein weight system for TFC rock preference
@@ -16,6 +18,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ### Fixed
 
+- Remove redundant FirmaBridge pig iron GT material (TFC already provides dust/ingot/nugget)
+- Remove kaolinite GT material (TFC provides kaolinite powder; GT auto-generates recipe for it)
+- Remove non-metal ore handling from OreQualityHandler (GT auto-generation handles those; eliminates recipe conflict spam)
+- Fix pig iron macerator recipe not matching in steam macerator (switch to direct TFC ItemStack input)
 - Trigger changelog on tags and always commit to FB-dev
 - Move conditional relations blocks outside CurseGradle DSL closure
 - Add missing closing brace in CommonProxy

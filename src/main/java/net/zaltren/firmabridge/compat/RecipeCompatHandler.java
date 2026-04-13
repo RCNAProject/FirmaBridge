@@ -1,14 +1,19 @@
 package net.zaltren.firmabridge.compat;
 
 import gregtech.api.recipes.RecipeMaps;
+import gregtech.api.recipes.ingredients.GTRecipeItemInput;
+import gregtech.api.recipes.ingredients.GTRecipeOreInput;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.unification.ore.OrePrefix;
-import gregtech.api.recipes.ingredients.GTRecipeOreInput;
+import net.dries007.tfc.api.registries.TFCRegistries;
+import net.dries007.tfc.api.types.Metal;
+import net.dries007.tfc.objects.items.metal.ItemMetal;
+import net.dries007.tfc.types.DefaultMetals;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.zaltren.firmabridge.FirmaBridge;
-import net.zaltren.firmabridge.materials.FirmaBridgeMaterials;
 
 /**
  * Adds explicit GT machine recipes for TFC metals that GT's auto-recipe
@@ -39,6 +44,9 @@ public class RecipeCompatHandler {
     private static int addMaceratorRecipes() {
         int count = 0;
 
+        // Pig iron — use TFC item instances directly to guarantee machine recipe matching.
+        count += maceratePigIron();
+
         // Steel-family alloys → their own GT material dust
         count += macerate("ingotBlackSteel",     Materials.BlackSteel,     1, 400, 2);
         count += macerate("ingotBlueSteel",      Materials.BlueSteel,      1, 400, 2);
@@ -56,33 +64,59 @@ public class RecipeCompatHandler {
     }
 
     /**
-     * EBF recipes bridging TFC iron progression into GT's processing chain.
-     *
-     * Pig iron (Fe9C1) is the raw output of smelting TFC iron ore. Processing it
-     * in the EBF removes the excess carbon, yielding purified iron ingot with a
-     * chance of recovering carbon dust as a byproduct.
-     *
-     * Chain: TFC iron ore → macerator → pig iron dust
-     *                                       ↓ EBF 800°C
-     *                                   iron ingot (+25% carbon dust)
-     *                                       ↓ EBF 1000°C (GT auto-recipe)
-     *                                   wrought iron → steel
+     * Macerator recipe for TFC pig iron ingot → pig iron dust.
+     * Uses TFC item instances directly (GTRecipeItemInput) to guarantee machine matching —
+     * GTRecipeOreInput can miss items not registered by GT itself.
      */
-    private static int addBlastFurnaceRecipes() {
-        if (FirmaBridgeMaterials.PIG_IRON == null) {
-            FirmaBridge.LOGGER.warn("RecipeCompatHandler: PIG_IRON material not registered, skipping EBF recipe.");
+    private static int maceratePigIron() {
+        Metal metal = TFCRegistries.METALS.getValue(DefaultMetals.PIG_IRON);
+        if (metal == null) {
+            FirmaBridge.LOGGER.warn("RecipeCompatHandler: TFC pig iron metal not found, skipping macerator recipe.");
             return 0;
         }
+        Item ingot = ItemMetal.get(metal, Metal.ItemType.INGOT);
+        Item dust  = ItemMetal.get(metal, Metal.ItemType.DUST);
+        if (ingot == null || dust == null) {
+            FirmaBridge.LOGGER.warn("RecipeCompatHandler: TFC pig iron ingot or dust item not found, skipping macerator recipe.");
+            return 0;
+        }
+        RecipeMaps.MACERATOR_RECIPES.recipeBuilder()
+                .inputs(new GTRecipeItemInput(new ItemStack(ingot)))
+                .outputs(new ItemStack(dust, 1))
+                .duration(400)
+                .EUt(2)
+                .buildAndRegister();
+        return 1;
+    }
 
+    /**
+     * EBF recipe: TFC pig iron dust → iron ingot + 25% carbon dust.
+     * Uses TFC item instance directly for the input to guarantee machine matching.
+     *
+     * Chain: TFC blast furnace → pig iron ingot
+     *            → GT macerator → pig iron dust
+     *            → GT EBF 800°C → iron ingot (+25% carbon dust)
+     *            → GT EBF 1000°C (auto) → wrought iron → steel
+     */
+    private static int addBlastFurnaceRecipes() {
+        Metal metal = TFCRegistries.METALS.getValue(DefaultMetals.PIG_IRON);
+        if (metal == null) {
+            FirmaBridge.LOGGER.warn("RecipeCompatHandler: TFC pig iron metal not found, skipping EBF recipe.");
+            return 0;
+        }
+        Item dust = ItemMetal.get(metal, Metal.ItemType.DUST);
+        if (dust == null) {
+            FirmaBridge.LOGGER.warn("RecipeCompatHandler: TFC pig iron dust item not found, skipping EBF recipe.");
+            return 0;
+        }
         RecipeMaps.BLAST_RECIPES.recipeBuilder()
-                .input(OrePrefix.dust, FirmaBridgeMaterials.PIG_IRON)
+                .inputs(new GTRecipeItemInput(new ItemStack(dust)))
                 .output(OrePrefix.ingot, Materials.Iron)
                 .chancedOutput(OrePrefix.dust, Materials.Carbon, 2500, 0) // 25% carbon dust byproduct
                 .blastFurnaceTemp(800)
                 .duration(400)
                 .EUt(120)
                 .buildAndRegister();
-
         return 1;
     }
 

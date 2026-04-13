@@ -28,9 +28,7 @@ import net.zaltren.firmabridge.Tags;
 public class FirmaBridgeMaterials {
 
     // Public references — available after MaterialEvent fires (GT preInit).
-    public static Material PIG_IRON;
     public static Material LIGNITE;
-    public static Material KAOLINITE;
     public static Material SYLVITE;
     public static Material CRYOLITE;
     public static Material SERPENTINE;
@@ -42,18 +40,6 @@ public class FirmaBridgeMaterials {
 
     @SubscribeEvent
     public static void registerMaterials(MaterialEvent event) {
-        // --- Iron family ---
-
-        // TFC intermediate iron: iron ore → pig iron → (work/process) → wrought iron.
-        // Fe₉C₁ composition — centrifuge yields iron + carbon (slight coke byproduct).
-        PIG_IRON = new Material.Builder(24001, new ResourceLocation(Tags.MOD_ID, "pig_iron"))
-                .ingot()
-                .dust()
-                .color(0xC0A080)
-                .iconSet(MaterialIconSet.DULL)
-                .components(Materials.Iron, 9, Materials.Carbon, 1)
-                .build();
-
         // --- Coal family ---
 
         // TFC brown coal — lower grade than bituminous coal, higher than peat.
@@ -64,17 +50,6 @@ public class FirmaBridgeMaterials {
                 .iconSet(MaterialIconSet.DULL)
                 .burnTime(800)
                 .components(Materials.Carbon, 1)
-                .build();
-
-        // --- Clay / aluminium silicate family ---
-
-        // TFC kaolin clay ore. Al₂Si₂O₅ — centrifuge yields aluminium + silicon + oxygen,
-        // giving players an aluminium source without bauxite (which TFC doesn't have).
-        KAOLINITE = new Material.Builder(24003, new ResourceLocation(Tags.MOD_ID, "kaolinite"))
-                .dust()
-                .color(0xF5F0E8)
-                .iconSet(MaterialIconSet.ROUGH)
-                .components(Materials.Aluminium, 2, Materials.Silicon, 2, Materials.Oxygen, 5)
                 .build();
 
         // --- Evaporite / halide minerals ---
@@ -110,6 +85,6 @@ public class FirmaBridgeMaterials {
                 .components(Materials.Magnesium, 3, Materials.Silicon, 2, Materials.Oxygen, 5)
                 .build();
 
-        FirmaBridge.LOGGER.info("FirmaBridgeMaterials: registered 6 custom GT materials for TFC-specific content.");
+        FirmaBridge.LOGGER.info("FirmaBridgeMaterials: registered 4 custom GT materials for TFC-specific content.");
     }
 }

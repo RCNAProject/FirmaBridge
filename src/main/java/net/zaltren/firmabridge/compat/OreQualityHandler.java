@@ -1,6 +1,5 @@
 package net.zaltren.firmabridge.compat;
 
-import gregtech.api.GregTechAPI;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.ingredients.GTRecipeItemInput;
 import gregtech.api.unification.OreDictUnifier;
@@ -21,21 +20,21 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Adds GT macerator recipes for TFC ore items, scaling output by ore grade.
+ * Adds GT macerator recipes for TFC metal ore items, scaling output by ore grade.
  *
- * TFC ores drop ItemOreTFC (graded chunks) and ItemSmallOre (surface finds).
- * GT's auto-recipe generation doesn't cover these TFC-specific item types,
- * so without this handler players can't process TFC ore drops through GT machines.
+ * TFC metal ores drop ItemOreTFC (graded chunks) and ItemSmallOre (surface finds).
+ * GT's auto-recipe generation only covers its own OreDict ore entries; TFC metal
+ * ore items are not in GT's standard OreDict, so we add them explicitly here.
  *
  * Yield by grade:
- *   Small ore  → 1× dustSmall  (surface find, partial yield)
- *   POOR chunk → 1× dust
- *   NORMAL chunk → 2× dust     (matches GT standard ore yield)
- *   RICH chunk → 3× dust
+ *   Small ore    → 1× dustSmall
+ *   POOR chunk   → 1× dust
+ *   NORMAL chunk → 2× dust  (matches GT standard ore yield)
+ *   RICH chunk   → 3× dust
  *
- * Covers both metal ores (mapped via TFC Metal type) and non-metal ores
- * (coal, graphite, lapis, sulfur, etc.) mapped by registry name.
- * TFC-unique alloys (Black Steel, etc.) are skipped — no GT dust exists for them.
+ * Non-metal TFC ores (coal, graphite, lignite, etc.) are excluded — GT auto-generates
+ * macerator recipes for those when the FirmaBridge/GT materials are registered.
+ * TFC-unique alloys (Black Steel, etc.) are also skipped — no GT dust exists for them.
  *
  * Called in postInit, after GT has registered its own recipes.
  */
@@ -46,13 +45,7 @@ public class OreQualityHandler {
     private static final Map<ResourceLocation, Material> METAL_TO_GT =
             new LinkedHashMap<>();
 
-    // TFC non-metal ore ResourceLocation → GT material name (resolved at register() time).
-    // Uses string-based GT material lookup so missing GT materials are skipped gracefully.
-    private static final Map<ResourceLocation, String> NON_METAL_GT_NAMES =
-            new LinkedHashMap<>();
-
     static {
-        // Metal ores
         METAL_TO_GT.put(DefaultMetals.COPPER,       Materials.Copper);
         METAL_TO_GT.put(DefaultMetals.TIN,           Materials.Tin);
         METAL_TO_GT.put(DefaultMetals.GOLD,          Materials.Gold);
@@ -62,73 +55,22 @@ public class OreQualityHandler {
         METAL_TO_GT.put(DefaultMetals.BISMUTH,       Materials.Bismuth);
         METAL_TO_GT.put(DefaultMetals.ZINC,          Materials.Zinc);
         METAL_TO_GT.put(DefaultMetals.PLATINUM,      Materials.Platinum);
-        // PIG_IRON resolved at register() time — FirmaBridgeMaterials.PIG_IRON isn't set yet at class load
+        // PIG_IRON omitted — not a naturally spawning ore, TFC produces it via blast furnace
         METAL_TO_GT.put(DefaultMetals.WROUGHT_IRON,  Materials.WroughtIron);
         METAL_TO_GT.put(DefaultMetals.STEEL,         Materials.Steel);
         METAL_TO_GT.put(DefaultMetals.BRONZE,        Materials.Bronze);
         METAL_TO_GT.put(DefaultMetals.BRASS,         Materials.Brass);
-
-        // Non-metal ores — resolved by name at register() time.
-        // GT built-in materials (always present):
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "bituminous_coal"), "coal");
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "graphite"),        "graphite");
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "lapis_lazuli"),    "lapis");
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "saltpeter"),       "saltpeter");
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "sulfur"),          "sulfur");
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "cinnabar"),        "cinnabar");
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "pitchblende"),     "pitchblende");
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "borax"),           "borax");
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "olivine"),         "olivine");
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "gypsum"),          "gypsum");
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "satinspar"),       "gypsum");    // gypsum variety
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "selenite"),        "gypsum");    // gypsum variety
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "microcline"),      "potassium_feldspar");
-
-        // FirmaBridge custom materials (registered in FirmaBridgeMaterials, available at postInit):
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "lignite"),         "lignite");   // FirmaBridgeMaterials.LIGNITE
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "jet"),             "lignite");   // TFC jet is a lignite variety
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "kaolinite"),       "kaolinite"); // FirmaBridgeMaterials.KAOLINITE
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "sylvite"),         "sylvite");   // FirmaBridgeMaterials.SYLVITE
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "cryolite"),        "cryolite");  // FirmaBridgeMaterials.CRYOLITE
-        NON_METAL_GT_NAMES.put(new ResourceLocation("tfc", "serpentine"),      "serpentine");// FirmaBridgeMaterials.SERPENTINE
     }
 
     public static void register() {
-        // Resolve pig iron to FirmaBridge's custom material (registered during MaterialEvent).
-        // Falls back to Materials.Iron if the custom material failed to register.
-        Material pigIron = GregTechAPI.materialManager.getMaterial("pig_iron");
-        if (pigIron != null) {
-            METAL_TO_GT.put(DefaultMetals.PIG_IRON, pigIron);
-        } else {
-            METAL_TO_GT.put(DefaultMetals.PIG_IRON, Materials.Iron);
-            FirmaBridge.LOGGER.warn("OreQualityHandler: pig_iron material not found, falling back to Iron.");
-        }
-
-        // Resolve non-metal GT materials by name (GT registry is ready at postInit)
-        Map<ResourceLocation, Material> nonMetalToGT = new LinkedHashMap<>();
-        for (Map.Entry<ResourceLocation, String> e : NON_METAL_GT_NAMES.entrySet()) {
-            Material m = GregTechAPI.materialManager.getMaterial(e.getValue());
-            if (m != null) {
-                nonMetalToGT.put(e.getKey(), m);
-            } else {
-                FirmaBridge.LOGGER.warn("OreQualityHandler: GT material '{}' not found for TFC ore {}, skipping.",
-                        e.getValue(), e.getKey());
-            }
-        }
-
         int added = 0;
 
         for (Ore ore : TFCRegistries.ORES.getValuesCollection()) {
             Metal metal = ore.getMetal();
-            Material gtMaterial;
+            if (metal == null) continue; // non-metal ores handled by GT auto-generation
 
-            if (metal != null) {
-                gtMaterial = METAL_TO_GT.get(metal.getRegistryName());
-                if (gtMaterial == null) continue; // TFC-unique alloy, no GT dust
-            } else {
-                gtMaterial = nonMetalToGT.get(ore.getRegistryName());
-                if (gtMaterial == null) continue; // not mapped
-            }
+            Material gtMaterial = METAL_TO_GT.get(metal.getRegistryName());
+            if (gtMaterial == null) continue; // TFC-unique alloy, no GT dust
 
             if (ore.isGraded()) {
                 added += addGradedRecipes(ore, gtMaterial);
@@ -138,7 +80,7 @@ public class OreQualityHandler {
             added += addSmallOreRecipe(ore, gtMaterial);
         }
 
-        FirmaBridge.LOGGER.info("OreQualityHandler: added {} GT macerator recipes for TFC ore grades.", added);
+        FirmaBridge.LOGGER.info("OreQualityHandler: added {} GT macerator recipes for TFC metal ore grades.", added);
     }
 
     /**
