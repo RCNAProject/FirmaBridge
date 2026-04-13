@@ -5,7 +5,12 @@ All notable changes to FirmaBridge will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+
 ## [Unreleased]
+
+---
+
+## [v0.1.4-alpha] — 2026-04-12
 
 ### Added
 
@@ -16,6 +21,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ### Fixed
 
+- Remove redundant FirmaBridge pig iron GT material (TFC already provides dust/ingot/nugget)
+- Remove kaolinite GT material (TFC provides kaolinite powder; GT auto-generates recipe for it)
+- Remove non-metal ore handling from OreQualityHandler (GT auto-generation handles those; eliminates recipe conflict spam)
+- Fix pig iron macerator recipe not matching in steam macerator (switch to direct TFC ItemStack input)
 - Trigger changelog on tags and always commit to FB-dev
 - Move conditional relations blocks outside CurseGradle DSL closure
 - Add missing closing brace in CommonProxy
@@ -25,7 +34,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - Change lignite iconSet from ROUGH to DULL to avoid 3D cube rendering
 - Remove gem() from lignite, dust-only is sufficient
 
----## [v0.1.2-alpha] — 2026-04-08
+---
+
+## [v0.1.2-alpha] — 2026-04-08
 
 ### Added
 
@@ -42,7 +53,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - Add pull request template
 - Add CONTRIBUTING.md with commit conventions and guidelines
 - Add restricted changes section to CONTRIBUTING.md
-- Expand code guidelines in CONTRIBUTING.md
 - Clarify commit convention rejection policy in CONTRIBUTING.md
 - Add CleanroomMC build template info to CONTRIBUTING.md
 - Add branch naming convention to CONTRIBUTING.md
@@ -60,7 +70,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - Replace third-party actions with direct run steps for org policy compliance
 - Install Java 25 in publish workflow for RFG compatibility
 
----## [v0.1.0-alpha] — 2026-04-07
+---
+
+## [v0.1.0-alpha] — 2026-04-07
 
 ### Added
 

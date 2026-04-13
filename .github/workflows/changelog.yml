@@ -1,15 +1,13 @@
-name: Update Changelog
+name: Promote Changelog
 
 on:
   push:
-    branches:
-      - FB-dev
     tags:
       - 'v*'
 
 jobs:
   changelog:
-    name: Generate Changelog
+    name: Promote Unreleased to Version
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -20,21 +18,28 @@ jobs:
           git clone https://x-access-token:${{ secrets.CHANGELOG_PAT }}@github.com/${{ github.repository }}.git .
           git checkout FB-dev
 
-      - name: Install git-cliff
+      - name: Promote [Unreleased] to tagged version
         run: |
-          VERSION=$(curl -s https://api.github.com/repos/orhun/git-cliff/releases/latest | grep '"tag_name"' | cut -d'"' -f4 | tr -d 'v')
-          curl -sSfL "https://github.com/orhun/git-cliff/releases/download/v${VERSION}/git-cliff-${VERSION}-x86_64-unknown-linux-musl.tar.gz" \
-            | tar -xz --strip-components=1 -C /usr/local/bin --wildcards '*/git-cliff'
+          TAG="${{ github.ref_name }}"
+          DATE=$(date -u +%Y-%m-%d)
+          python3 - "$TAG" "$DATE" <<'EOF'
+          import sys, re
 
-      - name: Generate changelog
-        run: git-cliff --verbose --output CHANGELOG.md
-        env:
-          GITHUB_REPO: ${{ github.repository }}
+          tag, date = sys.argv[1], sys.argv[2]
+          with open('CHANGELOG.md', 'r', encoding='utf-8') as f:
+              content = f.read()
+
+          promoted = f'## [Unreleased]\n\n---\n\n## [{tag}] — {date}'
+          content = content.replace('## [Unreleased]', promoted, 1)
+
+          with open('CHANGELOG.md', 'w', encoding='utf-8') as f:
+              f.write(content)
+          EOF
 
       - name: Commit and push changelog
         run: |
           git config user.name "TheZaltren"
           git config user.email "TheZaltren@users.noreply.github.com"
           git add CHANGELOG.md
-          git diff --cached --quiet || git commit -m "docs: update changelog"
+          git diff --cached --quiet || git commit -m "docs: promote changelog for ${{ github.ref_name }}"
           git push https://x-access-token:${{ secrets.CHANGELOG_PAT }}@github.com/${{ github.repository }}.git HEAD:FB-dev
