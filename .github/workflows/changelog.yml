@@ -29,6 +29,12 @@ jobs:
           with open('CHANGELOG.md', 'r', encoding='utf-8') as f:
               content = f.read()
 
+          # Only promote if [Unreleased] has content — skip if empty to avoid duplicate sections
+          match = re.search(r'## \[Unreleased\]\n(.*?)(?=\n## \[|\Z)', content, re.DOTALL)
+          if not match or not match.group(1).strip():
+              print(f'[Unreleased] is empty, skipping promotion for {tag}')
+              sys.exit(0)
+
           promoted = f'## [Unreleased]\n\n---\n\n## [{tag}] — {date}'
           content = content.replace('## [Unreleased]', promoted, 1)
 
